@@ -6,14 +6,17 @@
   "dependencies": {
     "parcel": "^2.0.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "process": "^0.11.10"
   },
   "scripts": {
-    "start": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "start": "run-p start:*",
+    "start:client": "parcel src/index.html",
+    "start:server": "node server/chat.mjs"
   },
   "author": "Ryan Kubik",
   "license": "UNLICENSED"

@@ -1,22 +1,33 @@
 import ReactDOM from "react-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const App = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const socket = useMemo(() => {
+    const chatUrl = new URL("ws://localhost:8080//chat");
+
+    return new WebSocket(chatUrl);
+  }, []);
 
   useEffect(() => {
-    const chatUrl = new URL("ws://" + window.location.host + "/chat");
-    const socket = new WebSocket(chatUrl);
+    if (!socket) {
+      return;
+    }
 
     socket.addEventListener("open", () => {
-      socket.send("Hello from client!");
+      // socket.send("Hello from client!");
     });
 
-    socket.addEventListener("message", (event) => {
-      setMessages([...messages, event.data]);
+    socket.addEventListener("message", async (event) => {
+      console.log({ event });
+
+      const newMessage =
+        event.data instanceof Blob ? await event.data.text() : event.data;
+
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
-  }, []);
+  }, [socket]);
 
   return (
     <div>
@@ -24,7 +35,7 @@ const App = () => {
         onSubmit={(e) => {
           e.preventDefault();
 
-          console.log(message);
+          socket.send(message);
           setMessage("");
         }}
       >
