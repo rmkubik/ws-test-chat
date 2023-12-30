@@ -13,6 +13,6 @@
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Ryan Kubik",
+  "license": "UNLICENSED"
 }
