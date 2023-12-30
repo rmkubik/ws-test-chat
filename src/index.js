@@ -1,8 +1,30 @@
 import ReactDOM from "react-dom";
-import React from "react";
+import React, { useState } from "react";
 
 const App = () => {
-  return <h1>Hello world!</h1>;
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+
+  return (
+    <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+
+          console.log(message);
+          setMessage("");
+        }}
+      >
+        <input onChange={(e) => setMessage(e.target.value)} value={message} />
+        <button type="submit">Send</button>
+      </form>
+      <ul>
+        {messages.map((loggedMessage) => (
+          <li>{loggedMessage}</li>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 const root = document.getElementById("root");
